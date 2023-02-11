@@ -2,9 +2,9 @@ package main
 
 import (
 	"database/sql"
+	"go-mysql/database"
 	"log"
 	"os"
-	"utils/database"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
