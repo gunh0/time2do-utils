@@ -6,24 +6,48 @@ import (
 	"net/http"
 
 	"github.com/gorilla/context"
+	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
+// @title Orders API
+// @version 1.0
+// @description This is a sample serice for managing orders
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email soberkoder@swagger.io
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:3333
+// @BasePath /
 func main() {
+	log.Println("Start main.go")
+
 	// gorilla/mux router
-	r := mux.NewRouter()
+	router := mux.NewRouter()
 
 	// use the logger middleware on complete router
-	r.Use(logMW)
+	router.Use(logMW)
 
 	// serving routes
-	r.HandleFunc("/hello", helloHandler)
-	r.HandleFunc("/secret", authMW(secretHandler)) // this route using the authentication middleware
+	router.HandleFunc("/hello", helloHandler)
+	router.HandleFunc("/secret", authMW(secretHandler)) // this route using the authentication middleware
 
-	r.PathPrefix("/").HandlerFunc(notFoundHandler)
+	router.PathPrefix("/").HandlerFunc(notFoundHandler)
+
+	corsHandler := handlers.CORS(
+		handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedOrigins([]string{"*"}),
+	)
+	router.PathPrefix("/swagger").Handler(corsHandler(httpSwagger.WrapHandler))
 
 	// start server on port 3333
-	http.ListenAndServe("localhost:3333", r)
+	log.Println("Server started on port 3333")
+	http.ListenAndServe("localhost:3333", router)
+
 }
 
 // (open) hello route
