@@ -25,3 +25,8 @@ zip:
 	@echo "[zip] Compress to zip file..."
 	@zip -r rk-demo.zip *
 	@echo "------------------------------------[Done]"
+
+run:
+	@echo "[run] Running rk-demo..."
+	@go run main.go
+
