@@ -1,0 +1,34 @@
+definitions:
+  main.welcomeModel:
+    properties:
+      id:
+        example: 1
+        format: int64
+        type: integer
+      name:
+        example: account name
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /welcome/{name}:
+    get:
+      consumes:
+      - application/json
+      description: 자세한 설명은 이곳에 적습니다.
+      parameters:
+      - description: User name
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.welcomeModel'
+      summary: Summary를 적어 줍니다.
+swagger: "2.0"
