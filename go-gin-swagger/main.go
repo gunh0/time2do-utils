@@ -3,8 +3,9 @@ package main
 import (
 	"net/http"
 
+	docs "github.com/gunh0/go-gin-swagger/docs"
+
 	"github.com/gin-gonic/gin"
-	docs "github.com/gunh0/go-mux-swaggo/docs"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
